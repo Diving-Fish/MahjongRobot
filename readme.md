@@ -8,8 +8,10 @@ dpkg -i chrome.deb
 ```
 
 ### Pull & Run
-`docker pull richardchien/cqhttp:latest`
-`docker run -ti --rm --name cqhttp-test -v $(pwd)/coolq:/home/user/coolq -p 9000:9000 -p 5700:5700 -e COOLQ_ACCOUNT=1969862413 richardchien/cqhttp:latest`
+```
+docker pull richardchien/cqhttp:latest
+docker run -ti --rm --name cqhttp-test -v $(pwd)/coolq:/home/user/coolq -p 9000:9000 -p 5700:5700 -e COOLQ_ACCOUNT=1969862413 richardchien/cqhttp:latest
+```
 
 ### Start coolq and configure
 Configure file at `coolq/app/io.github.richardchien.coolqhttpapi/config/<user-id>.json` like
@@ -42,4 +44,6 @@ Configure file at `coolq/app/io.github.richardchien.coolqhttpapi/config/<user-id
 ```
 
 ### Rerun
-`docker run -ti --rm --name cqhttp-test -v $(pwd)/coolq:/home/user/coolq -p 9000:9000 -p 5700:5700 -e COOLQ_ACCOUNT=1969862413 richardchien/cqhttp:latest`
+```
+docker run -ti --rm --name cqhttp-test -v $(pwd)/coolq:/home/user/coolq -p 9000:9000 -p 5700:5700 -e COOLQ_ACCOUNT=1969862413 richardchien/cqhttp:latest
+```
