@@ -1,8 +1,12 @@
 from nonebot import on_command, CommandSession
 import requests
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-driver = webdriver.Chrome()
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(chrome_options=chrome_options)
 
 
 @on_command('pl', only_to_me=False)
