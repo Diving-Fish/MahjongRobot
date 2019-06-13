@@ -41,8 +41,8 @@ async def _(session: CommandSession):
             "placewind": 0, \
             
             "yifa": False, \
-            "haidi": False, \
-            "hedi": False, \
+            "haidi": tsumo, \
+            "hedi": not tsumo, \
             "lingshang": False, \
             "qianggang": False, \
             "wreach": False, \
