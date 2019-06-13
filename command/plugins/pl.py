@@ -18,7 +18,6 @@ async def pl(session: CommandSession):
 @pl.args_parser
 async def _(session: CommandSession):
     stripped_arg = session.current_arg_text.strip()
-    print(stripped_arg)
 
     if stripped_arg:
         driver.get("https://tenhou.net/2/?q=" + stripped_arg)
