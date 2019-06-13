@@ -15,8 +15,7 @@ async def _(session: CommandSession):
     if stripped_arg:
         data = stripped_arg.split(" ", 1)
         if len(data) == 1:
-            session.state['result'] = '查询有误'
-            return
+            data = [data[0], ""]
         url = 'http://47.100.50.175:8000/cal'
         headers = {"Content-Type": "application/json;charset=UTF-8"}
         s = json.dumps({
