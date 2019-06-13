@@ -35,7 +35,7 @@ async def _(session: CommandSession):
             "dora": "", \
             "innerdora": "", \
             "reach": False, \
-            "tsumo": True, \
+            "tsumo": tsumo, \
             
             "selfwind": 0, \
             "placewind": 0, \
@@ -51,4 +51,4 @@ async def _(session: CommandSession):
         })
         r = requests.post(url, headers=headers, data=s)
         j = json.loads(r.text)
-        session.state['result'] = ((stripped_arg + ' ' + str(j['data']['fu'])) if j['status'] == 200 else "查询有误")
+        session.state['result'] = (('牌型：' + stripped_arg + '\n符数：' + str(j['data']['fu'])) if j['status'] == 200 else "查询有误")
