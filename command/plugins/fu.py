@@ -11,8 +11,19 @@ async def fu(session: CommandSession):
 @fu.args_parser
 async def _(session: CommandSession):
     stripped_arg = session.current_arg_text.strip()
-
     if stripped_arg:
+
+        tsumo = False
+        if stripped_arg[-2:] == ' 0':
+            tsumo = False
+        elif stripped_arg[-2:] == ' 1':
+            tsumo = True
+        else:
+            session.state['result'] = '查询有误'
+            return
+        
+        stripped_arg = stripped_arg[:-2].strip()
+
         data = stripped_arg.split(" ", 1)
         if len(data) == 1:
             data = [data[0], ""]
@@ -40,4 +51,4 @@ async def _(session: CommandSession):
         })
         r = requests.post(url, headers=headers, data=s)
         j = json.loads(r.text)
-        session.state['result'] = ((stripped_arg + ' ' + j['data']['fu']) if j['status'] == 200 else "查询有误")
+        session.state['result'] = ((stripped_arg + ' ' + str(j['data']['fu'])) if j['status'] == 200 else "查询有误")
