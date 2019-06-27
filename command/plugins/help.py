@@ -12,5 +12,6 @@ async def help(session: CommandSession):
            '可选参数需要换行，可以是：立直 自摸 自风x 场风x 宝牌xx 里宝牌xx 一发等。\r\n' \
            '例子：\r\n' \
            '/point 123456789m2377s4s\r\n' \
-           '立直 一发 自摸 宝牌4m 里宝牌7s 自风西 场风南'
+           '立直 一发 自摸 宝牌4m 里宝牌7s 自风西 场风南\r\n' \
+           '完整帮助列表：https://github.com/Diving-Fish/MahjongRobot/blob/master/help.md'
     await session.send(text)
