@@ -14,9 +14,9 @@ async def _(session: CommandSession):
     stripped_arg = session.current_arg_text.strip()
 
     if not stripped_arg:
-        return '查询有误'
+        session.state['result'] = '查询有误'
 
-    data = stripped_arg.split('\n')
+    data = stripped_arg.split('\r\n')
 
     tiles = data[0].split(' ', 1)
     if len(tiles) == 1:
@@ -89,9 +89,9 @@ async def _(session: CommandSession):
             args["tianhe"] = True
         elif extra == '地和':
             args["dihe"] = True
-
+    
     request_body = json.dumps(args)
     headers = {"Content-Type": "application/json;charset=UTF-8"}
     url = 'http://47.100.50.175:8000/cal'
     r = requests.post(url, headers=headers, data=request_body)
-    return r.text
+    session.state['result'] = r.text
