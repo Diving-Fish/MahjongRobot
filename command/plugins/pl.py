@@ -1,5 +1,4 @@
 from nonebot import on_command, CommandSession
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 

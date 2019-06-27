@@ -30,24 +30,24 @@ async def _(session: CommandSession):
         url = 'http://47.100.50.175:8000/cal'
         headers = {"Content-Type": "application/json;charset=UTF-8"}
         s = json.dumps({
-            "inner": data[0], \
-            "outer": data[1], \
-            "dora": "", \
-            "innerdora": "", \
-            "reach": False, \
-            "tsumo": tsumo, \
+            "inner": data[0],
+            "outer": data[1],
+            "dora": "",
+            "innerdora": "",
+            "reach": False,
+            "tsumo": tsumo,
             
-            "selfwind": 0, \
-            "placewind": 0, \
+            "selfwind": 0,
+            "placewind": 0,
             
-            "yifa": False, \
-            "haidi": tsumo, \
-            "hedi": not tsumo, \
-            "lingshang": False, \
-            "qianggang": False, \
-            "wreach": False, \
-            "tianhe": False, \
-            "dihe": False \
+            "yifa": False,
+            "haidi": tsumo,
+            "hedi": not tsumo,
+            "lingshang": False,
+            "qianggang": False,
+            "wreach": False,
+            "tianhe": False,
+            "dihe": False
         })
         r = requests.post(url, headers=headers, data=s)
         j = json.loads(r.text)
