@@ -1,6 +1,33 @@
 from nonebot import on_command, CommandSession
 import requests
 import json
+import math
+
+
+def up(num):
+    return math.ceil(num / 100) * 100
+
+
+def get_yaku_info(id, mq):
+    if id > 100:
+        return '宝牌', id - 100
+    elif id > 200:
+        return '赤宝牌', id - 200
+    elif id > 300:
+        return '里宝牌', id - 300
+    ids = [1, 2, 3, 4, 5, 6, 71, 72, 73, 74, 75, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+           26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
+    names = ["立直", "一发", "门前清自摸和", "平和", "断幺九", "一杯口", "役牌：场风牌", "役牌：自风牌", "役牌：白", "役牌：发",
+             "役牌：中", "海底捞月", "河底捞鱼", "枪杠", "岭上开花", "两立直", "七对子", "一气通贯", "三色同顺", "混全带幺九",
+             "三色同刻", "三暗刻", "对对和", "小三元", "混老头", "三杠子", "混一色", "纯全带幺九", "二杯口", "清一色", "国士无双",
+             "大三元", "四暗刻", "小四喜", "字一色", "绿一色", "清老头", "九莲宝灯", "四杠子", "天和", "地和", "国士无双十三面",
+             "大四喜", "四暗刻单骑", "纯正九莲宝灯"]
+    fan_mq = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 6, 13, 13, 13, 13,
+              13, 13, 13, 13, 13, 13, 13, 26, 26, 26, 26]
+    fan_fl = [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 5, 13, 13, 13, 13,
+              13, 13, 13, 13, 13, 13, 13, 26, 26, 26, 26]
+    index = ids.index(id)
+    return names[index], fan_mq[index] if mq else fan_fl[index]
 
 
 @on_command('point', only_to_me=False)
@@ -15,6 +42,7 @@ async def _(session: CommandSession):
 
     if not stripped_arg:
         session.state['result'] = '查询有误'
+        return
 
     data = stripped_arg.split('\r\n')
 
@@ -94,4 +122,25 @@ async def _(session: CommandSession):
     headers = {"Content-Type": "application/json;charset=UTF-8"}
     url = 'http://47.100.50.175:8000/cal'
     r = requests.post(url, headers=headers, data=request_body)
-    session.state['result'] = r.text
+    rtext = ''
+    rjson = json.loads(r.text)
+    yakus = rjson['data']['yakus']
+    mq = rjson['data']['inner']
+    for yaku in yakus:
+        space = ' ' * 4
+        yakuname, fan = get_yaku_info(yaku, mq)
+        yakuname += space * (8 - len(yakuname))
+        yakuname += str(fan) + "番\r\n"
+        rtext += yakuname
+    rtext += "%d符%d番\r\n" % (rjson['data']['fu'], rjson['data']['fan'])
+    if rjson['data']['isQin']:
+        if rjson['data']['isTsumo']:
+            rtext += "%dAll" % up(2 * rjson['data']['perPoint'])
+        else:
+            rtext += str(up(6 * rjson['data']['perPoint']))
+    else:
+        if rjson['data']['isTsumo']:
+            rtext += "%d-%d" % (up(rjson['data']['perPoint']), up(2 * rjson['data']['perPoint']))
+        else:
+            rtext += str(up(4 * rjson['data']['perPoint']))
+    session.state['result'] = rtext
