@@ -134,12 +134,12 @@ async def _(session: CommandSession):
         rtext += yakuname
     rtext += "%d符%d番\r\n" % (rjson['data']['fu'], rjson['data']['fan'])
     if rjson['data']['isQin']:
-        if rjson['data']['isTsumo']:
+        if rjson['data']['tsumo']:
             rtext += "%dAll" % up(2 * rjson['data']['perPoint'])
         else:
             rtext += str(up(6 * rjson['data']['perPoint']))
     else:
-        if rjson['data']['isTsumo']:
+        if rjson['data']['tsumo']:
             rtext += "%d-%d" % (up(rjson['data']['perPoint']), up(2 * rjson['data']['perPoint']))
         else:
             rtext += str(up(4 * rjson['data']['perPoint']))
