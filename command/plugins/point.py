@@ -45,6 +45,8 @@ async def _(session: CommandSession):
         return
 
     data = stripped_arg.split('\r\n')
+    if len(data) == 1:
+        data = [data[0], ""]
 
     tiles = data[0].split(' ', 1)
     if len(tiles) == 1:
@@ -75,6 +77,14 @@ async def _(session: CommandSession):
     for extra in extras:
         if extra == '':
             continue
+        elif extra[0:2] == '宝牌':
+            args["dora"] = extra[2:]
+        elif extra[0:3] == '里宝牌':
+            args["innerdora"] = extra[3:]
+        elif extra[0:4] == 'dora':
+            args["dora"] = extra[4:]
+        elif extra[0:3] == 'ura':
+            args["innerdora"] = extra[3:]
         elif extra == '立直':
             args["reach"] = True
         elif extra == '自摸':
@@ -125,6 +135,9 @@ async def _(session: CommandSession):
     rtext = ''
     rjson = json.loads(r.text)
     yakus = rjson['data']['yakus']
+    if len(yakus) == 0:
+        session.state['result'] = '无役'
+        return
     mq = rjson['data']['inner']
     for yaku in yakus:
         space = ' ' * 4
