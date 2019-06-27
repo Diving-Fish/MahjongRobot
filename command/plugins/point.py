@@ -134,6 +134,9 @@ async def _(session: CommandSession):
     r = requests.post(url, headers=headers, data=request_body)
     rtext = ''
     rjson = json.loads(r.text)
+    if rjson['status'] == 'error':
+        session.state['result'] = rjson['message']
+        return
     yakus = rjson['data']['yakus']
     if len(yakus) == 0:
         session.state['result'] = '无役'
