@@ -13,4 +13,4 @@ async def help(session: CommandSession):
            '例子：\r\n' \
            '/point 123456789m2377s4s\r\n' \
            '立直 一发 自摸 宝牌4m 里宝牌7s 自风西 场风南'
-    session.send(text)
+    await session.send(text)
